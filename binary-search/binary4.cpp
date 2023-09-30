@@ -8,91 +8,48 @@ vector<int> findClosestElements(vector<int> &arr, int k, int x)
     int start = 0;
     int end = arr.size();
     int pos;
-    while (start <= end)
-    {
-        int mid = start + (end - start) / 2;
-        if (arr[mid] == x)
-        {
-            int right, left;
-            if (mid - k - 1 >= 0)
-            {
-                right = mid - k;
-            }
-            else
-            {
-                right = 0;
-            }
-            if (mid + k < arr.size())
-            {
-                left = mid + k - 1;
-            }
-            else
-            {
-                left = arr.size() - 1;
-            }
-            while ((mid - right + left - mid) > (k - 1))
-            {
-                if (abs(arr[right] - x) <= abs(arr[left] - x))
-                {
-                    left--;
-                }
-                else
-                {
-                    right++;
-                }
-            }
-            vector<int> ans;
-            for (int i = right; i <= left; i++)
-            {
-                ans.push_back(arr[i]);
-            }
-            return ans;
+    while(end>=start){
+        int mid=start+(end-start)/2;
+        if(arr[mid]==x){
+            pos=mid;
+            break;
         }
-        if (arr[mid] > x)
-        {
-            pos = mid;
-            end = mid - 1;
-        }
-        else
-        {
-            start = mid + 1;
+        if(arr[mid]>x){
+            pos=mid;
+            end=mid-1;
+        }else{
+            pos=mid;
+            start=mid+1;
         }
     }
-    cout << pos;
-    int right, left;
-    if (pos - k - 1 >= 0)
-    {
-        right = pos - k;
-    }
-    else
-    {
-        right = 0;
-    }
-    if (pos + k < arr.size())
-    {
-        left = pos + k - 1;
-    }
-    else
-    {
-        left = arr.size() - 1;
-    }
-    while ((pos - right + left - pos) > (k - 1))
-    {
-        if (abs(arr[right] - x) <= abs(arr[left] - x))
-        {
-            left--;
-        }
-        else
-        {
-            right++;
+    int left,right;
+    if(arr[pos]!=x){
+        if((pos+1)<arr.size() && abs(arr[pos+1]-x)<abs(arr[pos]-x) ){
+            pos=x+1;
         }
     }
-    vector<int> ans;
-    for (int i = right; i <= left; i++)
-    {
-        ans.push_back(arr[i]);
+    if((pos-k-1)>=0){
+        left=pos-k-1;
+    }else{
+        pos=0;
     }
-    return ans;
+    if(pos+k-1<=arr.size()-1){
+        right=pos+k-1;
+    }else{
+        right=arr.size()-1;
+    }
+    while(right-left>=k){
+        if(abs(arr[left]-x)<=abs(arr[right]-x)){
+            right--;
+        }else{
+            left++;
+        }
+    }
+    vector<int> answer;
+    for(int i=left;i<=right;i++){
+        answer.push_back(arr[i]);
+    }
+    return answer;
 }
 
 int main()
